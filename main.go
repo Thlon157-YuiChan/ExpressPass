@@ -10,19 +10,25 @@ func main() {
 	server := http.Server{
 		Addr: ":8080", Handler: nil}
 
-	http.HandleFunc("GET /about/", handleRoot)
+	http.HandleFunc("GET /about/", handleAbout)
+	http.HandleFunc("GET /users/", handleUsers)
 
 	server.ListenAndServe()
 }
 
-func handleRoot(w http.ResponseWriter, r *http.Request) {
-	rootHTML, err := os.ReadFile("./html/index.html")
+func handleAbout(w http.ResponseWriter, r *http.Request) {
+	aboutHTML, err := os.ReadFile("./html/index.html")
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Internal Server Error 500"))
 		return
 	}
-	w.Write(rootHTML)
+	w.Write(aboutHTML)
 
+	fmt.Printf("Received request from %s\n", r.RemoteAddr)
+}
+
+func handleUsers(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Users Page"))
 	fmt.Printf("Received request from %s\n", r.RemoteAddr)
 }
