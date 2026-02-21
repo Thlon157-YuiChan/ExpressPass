@@ -1,12 +1,14 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net/http"
 	"os"
 )
 
 func main() {
+	processArgs()
 	server := http.Server{
 		Addr: ":8080", Handler: nil}
 
@@ -14,6 +16,11 @@ func main() {
 	http.HandleFunc("GET /users/", handleUsers)
 
 	server.ListenAndServe()
+}
+
+func processArgs() {
+	port := 8080
+	flag.IntVar(&port, "port", 8080, "Port to listen on")
 }
 
 func handleAbout(w http.ResponseWriter, r *http.Request) {
