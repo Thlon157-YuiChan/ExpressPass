@@ -24,6 +24,8 @@ func handleAbout(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleUsers(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Users"))
+	query := r.URL.Query()
+	userId := query.Get("userId")
+	w.Write([]byte("Users " + userId))
 	fmt.Printf("Received request from %s\n", r.RemoteAddr)
 }
